@@ -27,9 +27,10 @@ namespace CustomRP.Runtime
 
         private void Setup()
         {
+            _context.SetupCameraProperties(_camera);
+            _buffer.ClearRenderTarget(true, true, Color.clear);
             _buffer.BeginSample(BufferName);
             ExecuteBuffer();
-            _context.SetupCameraProperties(_camera);
         }
         
         private void Submit()
