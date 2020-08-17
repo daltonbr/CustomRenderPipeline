@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
-[CreateAssetMenu(menuName = "Rendering/Custom Render Pipeline")]
-public class CustomRenderPipelineAsset : RenderPipelineAsset
+namespace CustomRP.Runtime
 {
-    protected override RenderPipeline CreatePipeline()
+    [CreateAssetMenu(menuName = "Rendering/Custom Render Pipeline")]
+    public class CustomRenderPipelineAsset : RenderPipelineAsset
     {
-        return new CustomRenderPipeline();
+        protected override RenderPipeline CreatePipeline()
+        {
+            return new CustomRenderPipeline();
+        }
     }
 }

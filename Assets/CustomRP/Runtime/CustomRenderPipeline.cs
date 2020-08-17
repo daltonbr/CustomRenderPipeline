@@ -1,10 +1,19 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CustomRenderPipeline : RenderPipeline
+namespace CustomRP.Runtime
 {
-    protected override void Render(ScriptableRenderContext context, Camera[] cameras)
+    public class CustomRenderPipeline : RenderPipeline
     {
-
+        private CameraRenderer _renderer = new CameraRenderer();
+        
+        protected override void Render(ScriptableRenderContext context, Camera[] cameras)
+        {
+            foreach (var camera in cameras)
+            {
+                _renderer.Render(context, camera);
+            }
+        }
     }
 }
