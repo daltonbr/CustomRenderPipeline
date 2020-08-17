@@ -9,11 +9,14 @@ namespace CustomRP.Runtime
         private Camera _camera;
         private const string BufferName = "RenderCamera";
         private CommandBuffer _buffer = new CommandBuffer {name = BufferName};
+        private CullingResults _cullingResults;
 
         public void Render(ScriptableRenderContext context, Camera camera)
         {
             _context = context;
             _camera = camera;
+            
+            if (!Cull()) { return; }
             
             Setup();            
             DrawVisibleGeometry();
@@ -44,6 +47,16 @@ namespace CustomRP.Runtime
         {
             _context.ExecuteCommandBuffer(_buffer);
             _buffer.Clear();
+        }
+
+        private bool Cull()
+        {
+            if (_camera.TryGetCullingParameters(out ScriptableCullingParameters param))
+            {
+                _cullingResults = _context.Cull(ref param);
+                return true;
+            }
+            return false;
         }
     }
 }
