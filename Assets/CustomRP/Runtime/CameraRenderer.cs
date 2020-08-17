@@ -10,6 +10,8 @@ namespace CustomRP.Runtime
         private const string BufferName = "RenderCamera";
         private CommandBuffer _buffer = new CommandBuffer {name = BufferName};
         private CullingResults _cullingResults;
+        
+        private static ShaderTagId _unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
 
         public void Render(ScriptableRenderContext context, Camera camera)
         {
@@ -25,6 +27,11 @@ namespace CustomRP.Runtime
 
         private void DrawVisibleGeometry()
         {
+            var sortingSettings = new SortingSettings(_camera) {criteria = SortingCriteria.CommonOpaque};
+            var drawingSettings = new DrawingSettings(_unlitShaderTagId, sortingSettings);
+            var filteringSettings = new FilteringSettings(RenderQueueRange.all);
+
+            _context.DrawRenderers(_cullingResults, ref drawingSettings, ref filteringSettings);
             _context.DrawSkybox(_camera);
         }
 
@@ -58,5 +65,6 @@ namespace CustomRP.Runtime
             }
             return false;
         }
+
     }
 }
